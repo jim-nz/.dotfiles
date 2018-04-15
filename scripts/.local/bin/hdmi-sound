@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if [ -L ~/.asoundrc ]
-then
-	mv ~/.asoundrc ~/.asoundrc.off
-else
-	mv ~/.asoundrc.off ~/.asoundrc
-fi

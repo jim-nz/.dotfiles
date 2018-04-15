@@ -27,9 +27,6 @@ export PAGER='less'
 export PAGER='less'
 export LESSHISTFILE=-
 
-# Virtual machines
-export VBOX_USER_HOME=$HOME/vm
-
 # FZF (use ripgrep)
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -37,11 +34,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Composer
 export COMPOSER_HOME="$XDG_CONFIG_HOME"/composer
 export COMPOSER_CACHE_DIR="$XDG_CACHE_HOME"/composer
-
-# Browser
-if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER='open'
-fi
 
 # Development
 export NODE_ENV=dev
@@ -51,8 +43,6 @@ export NODE_ENV=dev
 #
 path=(
 $HOME/.local/bin
-$HOME/.asdf/bin
-$HOME/.asdf/shims
 $HOME/.cargo/bin
 /usr/local/bin
 $path

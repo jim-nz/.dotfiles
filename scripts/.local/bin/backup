@@ -1,1 +1,0 @@
-rsync -aP --delete ~/ tonido:~/backup --exclude ".*" --exclude "tmp" --exclude "vm"

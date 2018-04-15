@@ -1,6 +1,0 @@
-#!/bin/sh
-
-DMENUDIR=$HOME/.bin/
-PREFIX="dmenu_"
-
-menu=`ls $DMENUDIR | grep "$PREFIX" | egrep -v "_menu" | sed "s/$PREFIX//" | dmenu -p 'select menu:'` && eval "exec $DMENUDIR/${PREFIX}$menu"

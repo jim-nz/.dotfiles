@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cd /etc/openvpn
-sudo openvpn --writepid /var/run/vpn.pid --config UK\ London.ovpn

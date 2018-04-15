@@ -120,7 +120,7 @@ set linebreak showbreak=↪\  " Symbol for line breaks
 "  Filetype specific
 autocmd FileType vim setlocal foldmethod=marker
 autocmd FileType html,markdown,xhtml,ss.html setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS foldmethod=indent
+autocmd FileType css,scss,sass,less setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType javascript,typescript setlocal omnifunc=javascriptcomplete#CompleteJS
 "autocmd FileType javascript setlocal omnifunc=tern#Complete
 autocmd FileType yaml,python setlocal expandtab shiftwidth=2 tabstop=2
@@ -130,7 +130,7 @@ set termguicolors " 24 bit colour
 syntax enable " Enable syntax highlighting
 set background=dark
 set colorcolumn=80,120 " Highlight columns for target max length
-colorscheme falcon
+silent! colorscheme falcon
 highlight ColorColumn guibg=#1c1c1c " colorcolumn
 
 " Terminal: 8 normal colors
@@ -229,7 +229,7 @@ let g:deoplete#sources#tss#javascript_support = 1
 " Ignore omni in favour of phpcd
 let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
 "let g:deoplete#ignore_sources.php = ['omni']
-call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+"call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
@@ -298,7 +298,6 @@ endif
 let g:prosession_dir = sessiondir
 let g:prosession_tmux_title = 1
 let g:prosession_tmux_title_format = "nvim - @@@"
-let g:prosession_per_branch = 1
 
 " Taboo
 let g:taboo_tab_format = ' %N: %f '
@@ -359,6 +358,10 @@ vnoremap ,j <Esc>
 tnoremap ,j <C-\><C-n>
 nnoremap ,j <Nop>
 
+" ALE override Quickfix
+nmap [q <Plug>(ale_previous_wrap)
+nmap ]q <Plug>(ale_next_wrap)
+
 " Omnicomplete with Tab or CR
 inoremap <expr> <Tab> pumvisible() ? "\<c-y>" : "\<Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
@@ -392,7 +395,7 @@ nnoremap <Leader>' :Marks<CR>
 " Commands
 nnoremap <Leader>; :Commands<CR>
 " FZF show commands
-nmap <Leader>. <plug>(fzf-maps-n)
+nmap <Leader>. <Plug>(fzf-maps-n)
 " Blurred lines
 nnoremap <Leader>/ :Lines<CR>
 " Find next non-unicode character

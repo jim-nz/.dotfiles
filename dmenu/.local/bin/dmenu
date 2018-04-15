@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# dmenu drop-in override wrapper to include fonts and colours
-/usr/bin/dmenu -i -fn 'xft:DejaVuSansMono:antialias=true:pixelsize=11' -sb '#de935f' -sf '#1d1f21' -nb '#373b41' -nf '#b4b7b4' -h 18 "$@"

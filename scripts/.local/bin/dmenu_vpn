@@ -1,8 +1,0 @@
-#!/bin/sh
-
-VPNDIR=/etc/openvpn/
-VTERM="urxvtc -hold -e"
-
-cd $VPNDIR
-
-vpn=`ls $VPNDIR | grep -Ev "ca.crt|crl.pem|creds.conf" | dmenu -p 'select vpn:'`&& eval "$VTERM sudo openvpn --config $vpn --writepid /var/run/vpn.pid --auth-user-pass creds.conf"

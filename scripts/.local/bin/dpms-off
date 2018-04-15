@@ -1,4 +1,0 @@
-#!/bin/sh
-
-xset s off -dpms
-xset q | grep DPMS

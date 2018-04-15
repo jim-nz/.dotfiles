@@ -1,4 +1,0 @@
-#!/bin/sh
-
-xinput --set-prop 'Arc Touch BT Mouse' 'Device Accel Constant Deceleration' 4 &
-xset mouse 4 6 &

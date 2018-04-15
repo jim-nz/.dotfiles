@@ -1,4 +1,0 @@
-#!/bin/sh
-
-xinput --set-prop pointer:'MOSART Semi. 2.4G Keyboard Mouse' 'Device Accel Constant Deceleration' 3 &
-xset mouse 5 5 &
