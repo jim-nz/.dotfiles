@@ -2,11 +2,6 @@
 # Environment variables
 #
 
-# Language
-if [[ -z "$LANG" ]]; then
-  export LANG='en_NZ.UTF-8'
-fi
-
 # Temporary Files
 if [[ ! -d "$TMPDIR" ]]; then
   export TMPDIR="/tmp/$LOGNAME"
