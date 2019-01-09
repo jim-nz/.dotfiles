@@ -58,7 +58,7 @@
 	standup = shortlog --since=yesterday
 
 [color "diff"]
-	meta = magenta
+	meta = magenta bold
 
 [color "grep"]
 	filename = magenta
