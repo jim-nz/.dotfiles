@@ -18,10 +18,6 @@ Plug 'majutsushi/tagbar'
 Plug 'ericpruitt/tmux.vim'
 " Function signature help
 Plug 'Shougo/echodoc.vim'
-" Snippets engine
-Plug 'SirVer/ultisnips'
-" General snippets
-Plug 'honza/vim-snippets'
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
 " Preview yanks when pasting
@@ -36,11 +32,11 @@ Plug 'justinmk/vim-dirvish'
 " Status bar and themes
 Plug 'itchyny/lightline.vim'
 " Completion menu
-Plug 'Shougo/deoplete.nvim', { 'tag': '4.0-serial', 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'tag': '4.0-serial', 'do': ':UpdateRemotePlugins' }
 " TS completion
 Plug 'mhartington/nvim-typescript'
 " PHP completion
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+"Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 " Git markers
@@ -69,12 +65,8 @@ Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
 " CSS colour of hex values
 Plug 'ap/vim-css-color', { 'for': ['css', 'less', 'sass', 'scss'] }
-" Silverstripe syntax highlighting
-Plug 'phalkunz/vim-ss'
 " JS and TS syntax highlighting
 Plug 'HerringtonDarkholme/yats.vim'
-" ReactJS syntax highlighting
-Plug 'mxw/vim-jsx'
 " JS and TS doc
 Plug 'heavenshell/vim-jsdoc'
 " Tab management
@@ -207,7 +199,7 @@ highlight GitGutterDelete guifg = #cc6666
 highlight GitGutterChangeDelete guifg = #b294bb
 
 " Gutentags
-let ctagsdir = expand("$XDG_DATA_HOME/ctags")
+let ctagsdir = expand("$HOME/.local/share/ctags")
 if !isdirectory(ctagsdir)
     call mkdir(ctagsdir, 'p')
 endif
@@ -224,15 +216,15 @@ let g:jsdoc_input_description = 1
 let g:peekaboo_window = 'vert bo 50new'
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#tss#javascript_support = 1
+"let g:deoplete#enable_at_startup = 1
+"let g:deoplete#sources#tss#javascript_support = 1
 " Ignore omni in favour of phpcd
-let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+"let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
 "let g:deoplete#ignore_sources.php = ['omni']
-call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+"call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+"let g:UltiSnipsExpandTrigger = "<tab>"
+"let g:UltiSnipsJumpForwardTrigger = "<tab>"
+"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " FZF
 let g:fzf_layout = { 'down': '~33%' }
@@ -291,7 +283,7 @@ function! LightlineFilename()
 endfunction
 
 " ProSession
-let sessiondir = expand("$XDG_DATA_HOME/nvim/session")
+let sessiondir = expand("$HOME/.local/share/nvim/session")
 if !isdirectory(sessiondir)
     call mkdir(sessiondir, 'p')
 endif
@@ -326,6 +318,24 @@ let g:undotree_SetFocusWhenToggle = 1
 " Easy on the pinky
 nnoremap ; :
 
+" Pane open
+nnoremap <M--> <C-w>s<CR>
+nnoremap <M-\> <C-w>v<CR>
+" Pane move
+nnoremap <M-h> <C-w>h
+nnoremap <M-H> <C-w>H
+nnoremap <M-j> <C-w>j
+nnoremap <M-J> <C-w>J
+nnoremap <M-k> <C-w>k
+nnoremap <M-K> <C-w>K
+nnoremap <M-l> <C-w>l
+nnoremap <M-L> <C-w>L
+" Pane close
+nnoremap <M-w> <C-w>c
+
+" File explorer pane
+nnoremap <C-\> :Explore<CR>
+
 " Home row friendly navigation
 nnoremap H ^
 nnoremap L $
@@ -338,6 +348,7 @@ vnoremap > >gv
 nnoremap gp `[v`]
 
 " Open file from git repo
+nnoremap <C-p> :GitFiles<CR>
 nnoremap <CR> :GitFiles<CR>
 
 " Ban ex mode
@@ -360,7 +371,7 @@ tnoremap ,j <C-\><C-n>
 nnoremap ,j <Nop>
 
 " Omnicomplete with Tab or CR
-inoremap <expr> <Tab> pumvisible() ? "\<c-y>" : "\<Tab>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " New tab
