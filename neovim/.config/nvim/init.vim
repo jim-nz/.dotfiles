@@ -9,7 +9,10 @@ endif
 
 call plug#begin()
 
+Plug 'panickbr/neovim-ranger' " Use ranger for file browsing
+Plug 'zivyangll/git-blame.vim' " Show git blame info
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' } " LSP client
+Plug 'AndrewRadev/ember_tools.vim' " Tools for EmberJS
 Plug 'chriskempson/base16-vim' " Coding colour schemes
 Plug 'sheerun/vim-polyglot' " One stop syntax highlighting
 Plug 'ericpruitt/tmux.vim' " Tmux config syntax highlighting
@@ -30,7 +33,6 @@ Plug 'w0rp/ale' " Multi-language linting
 Plug 'ap/vim-css-color', { 'for': ['css', 'less', 'sass', 'scss'] } " CSS colour of hex values
 Plug 'HerringtonDarkholme/yats.vim' " JS and TS syntax highlighting
 Plug 'heavenshell/vim-jsdoc' " JS and TS doc
-Plug 'gcmt/taboo.vim' " Tab management
 Plug 'tpope/vim-obsession' | Plug 'dhruvasagar/vim-prosession' " Session restore
 
 call plug#end()
@@ -116,6 +118,8 @@ let g:ale_fixers = {
 let g:ale_sign_error = '⚠'
 let g:ale_sign_warning = '⚠'
 let g:ale_sign_info = '🛈'
+let g:ale_completion_enabled = 1
+let g:ale_javascript_flow_executable = 'flow-language-server --stdio'
 
 " Auto pairs
 let g:AutoPairsMultilineClose = 0
@@ -143,11 +147,6 @@ let g:indent_guides_enable_on_vim_startup = 1
 " JSDoc
 let g:jsdoc_enable_es6 = 1
 let g:jsdoc_input_description = 1
-
-" LSP
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['flow-language-server', '--stdio'],
-    \ }
 
 " Peekaboo
 let g:peekaboo_window = 'vert bo 50new'
@@ -216,21 +215,40 @@ let g:prosession_tmux_title = 1
 let g:prosession_tmux_title_format = "nvim - @@@"
 let g:prosession_per_branch = 1
 
-" Taboo
-let g:taboo_tab_format = ' %N: %f '
-let g:taboo_renamed_tab_format = ' %N: %l '
-
 " Undotree
 let g:undotree_SetFocusWhenToggle = 1
 
 " }}}
 " Mappings - overrides {{{
 
+
 " Write operations
 nnoremap <CR> :w<CR>
 
 " Easy on the pinky
 nnoremap ; :
+
+" Pane open
+nnoremap <M--> <C-w>s<CR>
+nnoremap <M-\> <C-w>v<CR>
+" Pane move
+nnoremap <M-h> <C-w>h
+nnoremap <M-H> <C-w>H
+nnoremap <M-j> <C-w>j
+nnoremap <M-J> <C-w>J
+nnoremap <M-k> <C-w>k
+nnoremap <M-K> <C-w>K
+nnoremap <M-l> <C-w>l
+nnoremap <M-L> <C-w>L
+" Pane close
+nnoremap <M-w> <C-w>c
+
+" Tab open
+nnoremap <M-t>t :tabnew<CR>
+nnoremap <M-c>t :tabc<CR>
+
+" File explorer pane
+nnoremap <C-\> :Ex %:p:h<CR>
 
 " Home row friendly navigation
 nnoremap H ^
@@ -269,9 +287,6 @@ nnoremap ,j <Nop>
 inoremap <expr> <Tab> pumvisible() ? "\<c-y>" : "\<Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-" New tab
-nnoremap <C-w>t :tabnew<CR>
-
 " }}}
 " Mappings - meta {{{
 
@@ -287,14 +302,12 @@ nnoremap <M-u> :UndotreeToggle<CR>
 map <Space> <Leader>
 " Change tab type
 nnoremap <Leader><Tab> :setlocal <C-R>=&expandtab ? 'noexpandtab' : 'expandtab'<CR><CR>
-" Open from cwd
-nnoremap <Leader>p :Files<CR>
 " Marks
 nnoremap <Leader>' :Marks<CR>
 " Commands
 nnoremap <Leader>; :Commands<CR>
-" FZF show commands
-nmap <Leader>. <plug>(fzf-maps-n)
+" Files from current file's path
+nnoremap <Leader>. :Files <C-R>=expand('%:h')<CR><CR>
 " Blurred lines
 nnoremap <Leader>/ :Lines<CR>
 " Find next non-unicode character
@@ -304,14 +317,18 @@ nnoremap <Leader>= :retab<CR>mzggvG@tgv=`z
 " Fix linting issues
 nnoremap <Leader>a :ALEFix<CR>
 " Switch to buffer
-nnoremap <Leader>b :Buffers<CR>!term ![No Name]
+nnoremap <Leader>b :Buffers<CR>
 " Find (respect .gitignore, include hidden files, ignore .git dir)
-nnoremap <Leader>f :GitGrep
+nnoremap <Leader>f :GitGrep! 
+" Open from cwd
+nnoremap <Leader>p :Files<CR>
 " Reload config
 nnoremap <Leader>R :so $MYVIMRC<CR>
+" Git blame info
+nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 " Search non-UTF8 characters
 nnoremap <Leader>u /[^\x00-\x7F]<CR>
-" Fast open config
+" Fast open confi,
 nnoremap <Leader>v :e ~/.dotfiles/neovim/.config/nvim/init.vim<CR>
 " Sudo write
 nnoremap <Leader>W :w !sudo tee % > /dev/null<CR>
@@ -347,6 +364,6 @@ let @v = ':%s/ / /ge:%s//‘/ge:%s//’/ge:%s//“/ge:%s//”/ge:%
 " - fzf#vim#grep(command, with_column, [options], [fullscreen])
 command! -bang -nargs=* GitGrep
   \ call fzf#vim#grep(
-  \   'git grep --line-number '.shellescape(<q-args>), 0,
+  \   'git grep --line-number --ignore-case '.shellescape(<q-args>), 0,
   \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 "}}}
