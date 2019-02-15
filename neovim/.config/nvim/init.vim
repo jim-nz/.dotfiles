@@ -365,5 +365,7 @@ let @v = ':%s/ / /ge:%s//‘/ge:%s//’/ge:%s//“/ge:%s//”/ge:%
 command! -bang -nargs=* GitGrep
   \ call fzf#vim#grep(
   \   'git grep --line-number --ignore-case '.shellescape(<q-args>), 0,
-  \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 "}}}
