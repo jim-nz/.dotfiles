@@ -300,6 +300,8 @@ nnoremap <M-u> :UndotreeToggle<CR>
 
 " Map Leader
 map <Space> <Leader>
+" Toggle buffer
+nnoremap <Leader><Space> <C-^>
 " Change tab type
 nnoremap <Leader><Tab> :setlocal <C-R>=&expandtab ? 'noexpandtab' : 'expandtab'<CR><CR>
 " Marks
