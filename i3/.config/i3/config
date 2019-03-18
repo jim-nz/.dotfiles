@@ -84,6 +84,14 @@ bindsym $mod+Shift+5 move container to workspace 5; workspace 5
 bindsym $mod+p workspace prev_on_output
 bindsym $mod+n workspace next_on_output
 
+# monitors
+set $monitor_one VNC-0
+set $monitor_two VNC-1
+workspace 0 output VNC-0
+workspace 1 output VNC-1
+workspace 2 output VNC-1
+workspace 3 output VNC-1
+
 # lock screen
 bindsym $mod+Return exec --no-startup-id i3lock -n -c 000000 -i ~/.lockscreen.jpg
 
