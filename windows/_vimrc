@@ -1,8 +1,0 @@
-" Use '.vim' directory on Windows too
-set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-" Use .viminfo instead of _viminfo
-set viminfo+=n~/.viminfo
-" Point to real .vimrc for autocommands
-let $MYVIMRC='~/.dotfiles/vim/.vimrc'
-" Source real .vimrc
-source ~/.dotfiles/vim/.vimrc

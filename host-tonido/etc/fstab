@@ -1,5 +1,0 @@
-tmpfs                                           /tmp                    tmpfs   defaults,noexec,nosuid  0       0
-UUID=3891c84b-9ab7-49e6-a46f-1d7f6a5bd1a9       none                    swap    sw                      0       0
-UUID=baa344c2-7932-4665-ae94-ece683109cf8       /var                    ext4    defaults                0       0
-UUID=b5715528-309c-419a-a8f9-17c470f1b4d7       /srv                    ext4    defaults                0       0
-UUID=1ADC8962DC893951                           /srv/storage/video      ntfs    defaults                0       0
