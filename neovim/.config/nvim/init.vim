@@ -24,7 +24,7 @@ Plug 'airblade/vim-gitgutter' " Git markers in the gutter
 Plug 'tpope/vim-unimpaired' " Useful macros using [ and ]
 Plug 'tpope/vim-repeat' " Use . repeat for tpope plugins
 Plug 'tpope/vim-commentary' " Quick commenting
-Plug 'tpope/vim-surround' " Change surroundings
+Plug 'machakann/vim-sandwich' " Change surroundings
 Plug 'Lokaltog/vim-easymotion' " Move through vim
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " Undo tree
 Plug 'jiangmiao/auto-pairs' " Auto close brackets
