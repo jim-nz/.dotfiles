@@ -9,16 +9,13 @@ endif
 
 call plug#begin()
 
-Plug 'panickbr/neovim-ranger' " Use ranger for file browsing
-Plug 'zivyangll/git-blame.vim' " Show git blame info
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' } " LSP client
-Plug 'AndrewRadev/ember_tools.vim' " Tools for EmberJS
 Plug 'chriskempson/base16-vim' " Coding colour schemes
 Plug 'sheerun/vim-polyglot' " One stop syntax highlighting
-Plug 'ericpruitt/tmux.vim' " Tmux config syntax highlighting
-Plug 'Shougo/echodoc.vim' " Function signature in command line
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " Intellisense
+Plug 'panickbr/neovim-ranger' " Use ranger for file browsing
+Plug 'zivyangll/git-blame.vim' " Show git blame info
+"Plug 'AndrewRadev/ember_tools.vim' " Tools for EmberJS
 Plug 'editorconfig/editorconfig-vim' " Pick up any editor config files
-Plug 'junegunn/vim-peekaboo' " Preview yanks when pasting
 Plug 'itchyny/lightline.vim' " Status bar and themes
 Plug 'airblade/vim-gitgutter' " Git markers in the gutter
 Plug 'tpope/vim-unimpaired' " Useful macros using [ and ]
@@ -29,9 +26,6 @@ Plug 'Lokaltog/vim-easymotion' " Move through vim
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " Undo tree
 Plug 'jiangmiao/auto-pairs' " Auto close brackets
 Plug 'junegunn/fzf', { 'dir': '~/.local/lib/fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim' " Fuzzy find
-Plug 'w0rp/ale' " Multi-language linting
-Plug 'ap/vim-css-color', { 'for': ['css', 'less', 'sass', 'scss'] } " CSS colour of hex values
-Plug 'HerringtonDarkholme/yats.vim' " JS and TS syntax highlighting
 Plug 'heavenshell/vim-jsdoc' " JS and TS doc
 Plug 'tpope/vim-obsession' | Plug 'dhruvasagar/vim-prosession' " Session restore
 
@@ -110,25 +104,11 @@ runtime macros/matchit.vim "Enable extended % matching
 " }}}
 " Plugin settings {{{
 
-" ALE
-let g:ale_fixers = {
-            \   'javascript': ['eslint'],
-            \   'php': ['phpcbf'],
-            \}
-let g:ale_sign_error = '⚠'
-let g:ale_sign_warning = '⚠'
-let g:ale_sign_info = '🛈'
-let g:ale_completion_enabled = 1
-let g:ale_javascript_flow_executable = 'flow-language-server --stdio'
-
 " Auto pairs
 let g:AutoPairsMultilineClose = 0
 
 " EchoDoc
 let g:echodoc#enable_at_startup = 1
-
-" Editorconfig
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " GitGutter
 let g:gitgutter_sign_added = '+'
@@ -168,9 +148,9 @@ let g:lightline = {
             \      [ 'percent' ],
             \   ],
             \   'right': [
-            \      [ 'fugitive' ],
             \      [ 'mode', 'paste' ],
-            \      [ 'obsession' ]
+            \      [ 'obsession' ],
+            \      [ 'cocstatus' ]
             \   ]
             \ },
             \ 'inactive': {
@@ -178,18 +158,16 @@ let g:lightline = {
             \      [ 'filedetail' ]
             \   ],
             \   'right': [
-            \      [ 'fugitive' ]
+            \      []
             \   ]
             \ },
             \ 'component': {
             \   'obsession': '%{ObsessionStatus()} ',
             \ },
             \ 'component_function': {
-            \   'fugitive': 'LightlineFugitive',
+            \   'cocstatus': 'coc#status',
             \   'filedetail': 'LightlineFilename',
-            \ },
-            \ 'separator': { 'left': '', 'right': '' },
-            \ 'subseparator': { 'left': '', 'right': '' },
+            \ }
             \ }
 function! LightlineFugitive()
     if exists('*fugitive#head')
@@ -290,8 +268,6 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 " }}}
 " Mappings - meta {{{
 
-" Toggle git blame panel
-nnoremap <M-b> :Gblame<CR>
 " Toggle undo tree
 nnoremap <M-u> :UndotreeToggle<CR>
 
@@ -316,14 +292,18 @@ nnoremap <Leader>/ :Lines<CR>
 nnoremap <Leader>@ /[^[:alnum:][:punct:][:space:]]<CR>:echo "Searching for non-unicode characters"<CR>
 " Move to current tab format, remove trailing space and re-indent file
 nnoremap <Leader>= :retab<CR>mzggvG@tgv=`z
-" Fix linting issues
-nnoremap <Leader>a :ALEFix<CR>
 " Switch to buffer
 nnoremap <Leader>b :Buffers<CR>
+" Find definitions
+nmap <silent> <leader>d <Plug>(coc-definition)
 " Find (respect .gitignore, include hidden files, ignore .git dir)
 nnoremap <Leader>f :GitGrep! 
+" Fix linting issues
+nnoremap <Leader>l :CocCommand eslint.executeAutofix<CR>
 " Open from cwd
 nnoremap <Leader>p :Files<CR>
+" Find references
+nmap <silent> <leader>r <Plug>(coc-references)
 " Reload config
 nnoremap <Leader>R :so $MYVIMRC<CR>
 " Git blame info
@@ -334,6 +314,9 @@ nnoremap <Leader>u /[^\x00-\x7F]<CR>
 nnoremap <Leader>v :e ~/.dotfiles/neovim/.config/nvim/init.vim<CR>
 " Sudo write
 nnoremap <Leader>W :w !sudo tee % > /dev/null<CR>
+" Yank
+nnoremap <Leader>y :<C-u>CocList -A --normal yank<CR>
+
 
 " }}}
 " Mappings - macros {{{
